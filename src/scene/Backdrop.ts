@@ -76,6 +76,22 @@ export function createBackdrop(colorA: THREE.Color, colorB: THREE.Color) {
         vec3 col = mix(uColorA, uColorB, clamp(intensity, 0.0, 1.0));
         col *= intensity;
 
+        // Iridescent topographic contour lines — a slow-drifting patch
+        // of rainbow isolines sitting low in the frame, like light
+        // refracting through water onto the ground. Ambient/decorative,
+        // independent of the cursor-hover shimmer below.
+        vec2 topoCenter = vec2(-0.32 + sin(uTime * 0.03) * 0.05, 0.04 + cos(uTime * 0.025) * 0.03);
+        vec2 toTopo = centered - topoCenter;
+        float topoDist = length(toTopo);
+        float topoField = fbm(toTopo * 1.6 + vec2(uTime * 0.012, -uTime * 0.01)) + topoDist * 1.4;
+        float topoLines = abs(fract(topoField * 5.0) - 0.5);
+        float topoLine = 1.0 - smoothstep(0.0, 0.06, topoLines);
+        float topoFall = exp(-topoDist * topoDist * 6.0);
+        float hue = fract(topoField * 0.6);
+        vec3 topoCol = mix(vec3(0.35, 0.9, 1.0), vec3(1.0, 0.35, 0.7), smoothstep(0.15, 0.55, hue));
+        topoCol = mix(topoCol, vec3(0.75, 1.0, 0.4), smoothstep(0.55, 0.9, hue));
+        col += topoCol * topoLine * topoFall * 0.3;
+
         // Pure black sky above the horizon — the glow only ever
         // occupies the lower third or so of the frame.
         float skyMask = smoothstep(0.0, 0.22, aboveHorizon);
