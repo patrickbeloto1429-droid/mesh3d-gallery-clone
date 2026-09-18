@@ -29,19 +29,26 @@ export function SectionsOverlay({ cameraZ }: { cameraZ: number }) {
         }
 
         if (section.kind === 'hero') {
+          // Mobile: everything centers and stacks with even spacing —
+          // matches the reference's phone layout. Desktop (sm+) splits
+          // the two lines into opposite corners with the caption between.
           return (
-            <div key={section.id} className="absolute inset-0 flex flex-col justify-between py-24 px-8" style={style}>
+            <div
+              key={section.id}
+              className="absolute inset-0 flex flex-col justify-center items-center text-center gap-8 px-8 sm:justify-between sm:items-stretch sm:text-inherit sm:gap-0 sm:py-24"
+              style={style}
+            >
               <h1
                 className="text-[clamp(40px,9vw,104px)] leading-none font-medium text-white"
                 style={displayFont}
               >
                 {section.lineA}
               </h1>
-              <div className="mx-auto">
+              <div className="sm:mx-auto">
                 <Caption>{section.caption}</Caption>
               </div>
               <h1
-                className="text-[clamp(40px,9vw,104px)] leading-none font-medium text-right self-end"
+                className="text-[clamp(40px,9vw,104px)] leading-none font-medium sm:text-right sm:self-end"
                 style={{ ...displayFont, color: 'var(--fg-secondary)' }}
               >
                 {section.lineB}
