@@ -29,7 +29,7 @@ export function Chrome({ progress, label }: ChromeProps) {
         </span>
 
         <a href="/" className="pointer-events-auto flex items-center">
-          <img src="/brand/imersao-virtual-logo.png" alt="Imersão Virtual" className="h-5 w-auto" />
+          <img src="/brand/imersao-virtual-logo.png" alt="Imersão Virtual" className="h-9 w-auto" />
         </a>
 
         <button
