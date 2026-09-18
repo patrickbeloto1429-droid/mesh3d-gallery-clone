@@ -38,7 +38,7 @@ export function Chrome({ progress, label }: ChromeProps) {
           className="pointer-events-auto flex items-center gap-2 text-[11px] tracking-[0.18em] uppercase text-white/80"
           style={{ fontFamily: 'var(--font-ui)' }}
         >
-          audio {audioOn ? 'on' : 'off'}
+          áudio {audioOn ? 'ligado' : 'desligado'}
           <span className="flex items-end gap-[2px] h-3">
             {[3, 6, 4].map((h, i) => (
               <span
@@ -53,7 +53,7 @@ export function Chrome({ progress, label }: ChromeProps) {
 
       <footer className="fixed bottom-5 left-0 right-0 z-20 flex items-center justify-between px-6 pointer-events-none select-none">
         <button type="button" className="pointer-events-auto text-[11px] tracking-[0.18em] uppercase text-white/80">
-          share
+          compartilhar
         </button>
         <span className="text-[11px] tracking-[0.18em] uppercase text-white/50">imersão virtual</span>
       </footer>

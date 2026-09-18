@@ -52,105 +52,100 @@ export interface OutroSection {
 
 export type Section = HeroSection | StatSection | MakerSection | PickSection | OutroSection
 
-// Placeholder / neutral content — swap for a real client's copy later.
-// Structure mirrors a "portfolio gallery in numbers" narrative without
-// reusing any wording from a specific reference site.
+// Imersão Virtual — real brand content, adapted from the 2026 brand
+// manual (positioning, mission, platforms, solution names) and
+// imersaovirtual.com (sector list, contact). Numbers below are only
+// ones honestly derivable from that material (counts of sectors,
+// platforms and named solutions) — no business metric (projects
+// delivered, clients served, years active) has been invented; those
+// still need Patrick's real figures before shipping.
 export const SECTIONS: Section[] = [
   {
     kind: 'hero',
     id: 'hero',
     z: 0,
-    lineA: 'The story',
-    lineB: 'so far',
-    caption:
-      "A running tally of the work: what's shipped, what's in progress, and what's rising to the top right now.",
+    lineA: 'Onde pessoas, empresas',
+    lineB: 'e dados se encontram',
+    caption: 'A dimensão que faltava no seu projeto.',
   },
   {
     kind: 'stat',
     id: 'stat-1',
     z: -8,
-    label: 'Projects delivered',
-    value: '128',
-    caption: "Every project we've shipped, in one place.",
+    label: 'Setores atendidos',
+    value: '5',
+    caption: 'Imobiliário, indústria, turismo, educação e muito mais.',
   },
   {
     kind: 'stat',
     id: 'stat-2',
     z: -16,
-    label: 'Live today',
-    value: '94',
-    caption: 'Live, in production, out in the world right now.',
+    label: 'Plataformas',
+    value: '6',
+    caption: 'Web, desktop, touch, VR, AR e MR — a mesma engenharia, qualquer tela.',
   },
   {
     kind: 'stat',
     id: 'stat-3',
     z: -24,
-    label: 'Prototypes',
-    value: '37',
-    caption: 'Drafts, concepts and dares that shaped the final work.',
-  },
-  {
-    kind: 'stat',
-    id: 'stat-4',
-    z: -32,
-    label: 'People involved',
-    value: '19',
-    caption: 'Studios and solo hands building alongside us.',
+    label: 'Soluções',
+    value: '4',
+    caption: 'Totem interativo, treinamentos, tour virtual e software sob medida.',
   },
   {
     kind: 'maker',
     id: 'maker',
-    z: -40,
-    kicker: 'TOP CONTRIBUTOR',
-    name: 'Studio Placeholder',
-    caption: 'The name behind the largest share of this run.',
+    z: -32,
+    kicker: 'DIRETOR EXECUTIVO',
+    name: 'Samuel Goulart',
+    caption: 'À frente da engenharia e de cada relação com o cliente.',
   },
   {
     kind: 'pick',
     id: 'pick-3',
-    z: -48,
-    kicker: 'FEATURED WORK №3',
-    title: 'Project Name',
-    byline: 'by Client Name',
-    caption: 'Rounding out the three that keep coming back.',
-    image: '/placeholders/pick-3.jpg',
+    z: -40,
+    kicker: 'SOLUÇÃO',
+    title: 'Treinamentos Corporativos',
+    byline: 'Simulações e capacitação em 3D',
+    caption: 'Indústria e segurança treinando para o risco real, sem o risco real.',
+    image: '/placeholders/treinamentos.jpg',
     tilesX: 10,
     tilesY: 7,
   },
   {
     kind: 'pick',
     id: 'pick-2',
-    z: -56,
-    kicker: 'FEATURED WORK №2',
-    title: 'Second Project',
-    byline: 'by Another Client',
-    caption: 'Close behind, and closing the gap.',
-    image: '/placeholders/pick-2.jpg',
+    z: -48,
+    kicker: 'SOLUÇÃO',
+    title: 'Tour Virtual 360°',
+    byline: 'Espaços que se exploram sozinhos',
+    caption: 'Imobiliário e turismo mostrando cada ambiente antes da primeira visita.',
+    image: '/placeholders/tour-360.jpg',
     tilesX: 10,
     tilesY: 7,
   },
   {
     kind: 'pick',
     id: 'pick-1',
-    z: -64,
-    kicker: 'FEATURED WORK №1',
-    title: 'Top Project',
-    byline: 'by Lead Client',
-    caption: 'The one everyone keeps sending around.',
-    image: '/placeholders/pick-1.jpg',
+    z: -56,
+    kicker: 'SOLUÇÃO',
+    title: 'Totem SmartView',
+    byline: 'Interação físico-digital em touch',
+    caption: 'A ponte entre o ambiente real e o modelo 3D, a um toque de distância.',
+    image: '/placeholders/totem-smartview.jpg',
     tilesX: 10,
     tilesY: 7,
   },
   {
     kind: 'outro',
     id: 'outro',
-    z: -72,
-    linesA: ["You've seen", 'the numbers'],
-    linesB: ['Now explore', 'the work'],
-    cta: 'View all projects',
-    ctaHref: '#',
+    z: -64,
+    linesA: ['Você já viu', 'as soluções'],
+    linesB: ['Agora vamos', 'ao seu projeto'],
+    cta: 'Fale conosco',
+    ctaHref: 'https://imersaovirtual.com',
   },
 ]
 
-export const SCROLL_END_Z = -72
+export const SCROLL_END_Z = -64
 export const STATION_Z = SECTIONS.map((s) => s.z)

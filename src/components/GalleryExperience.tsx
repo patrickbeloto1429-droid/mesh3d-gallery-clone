@@ -6,9 +6,9 @@ import { Chrome } from './Chrome'
 import { SectionsOverlay } from './SectionsOverlay'
 
 function labelFor(progress: number) {
-  if (progress < 0.04) return 'scroll to dive in'
-  if (progress < 0.85) return 'keep going'
-  return 'almost there'
+  if (progress < 0.04) return 'role para mergulhar'
+  if (progress < 0.85) return 'continue'
+  return 'quase lá'
 }
 
 export function GalleryExperience() {

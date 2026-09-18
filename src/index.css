@@ -13,8 +13,11 @@
   --violet: #7d4096;
   --accent: #ff4b3e;
   --accent-gradient: linear-gradient(135deg, #ff5a3c, #c13dd4);
-  --font-display: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
-  --font-ui: 'Geist', ui-sans-serif, system-ui, sans-serif;
+  /* Per the manual: Poppins for display/headings, Montserrat for body
+     copy, Caveat used sparingly for case/name signatures. */
+  --font-display: 'Poppins', ui-sans-serif, system-ui, sans-serif;
+  --font-ui: 'Montserrat', ui-sans-serif, system-ui, sans-serif;
+  --font-signature: 'Caveat', cursive;
 }
 
 * {

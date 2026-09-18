@@ -106,7 +106,10 @@ export function SectionsOverlay({ cameraZ }: { cameraZ: number }) {
                   >
                     {section.title}
                   </span>
-                  <span className="text-[13px] mt-1" style={{ ...uiFont, color: 'var(--muted)' }}>
+                  <span
+                    className="text-[20px] mt-1"
+                    style={{ fontFamily: 'var(--font-signature)', color: 'var(--fg-secondary)' }}
+                  >
                     {section.byline}
                   </span>
                 </div>
