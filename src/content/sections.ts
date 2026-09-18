@@ -9,6 +9,8 @@ export interface StatSection {
   caption: string
 }
 
+export type PickIcon = 'building' | 'vrHeadset' | 'smartview'
+
 export interface PickSection {
   kind: 'pick'
   id: string
@@ -17,9 +19,7 @@ export interface PickSection {
   title: string
   byline: string
   caption: string
-  image: string
-  tilesX: number
-  tilesY: number
+  icon: PickIcon
 }
 
 export interface HeroSection {
@@ -111,9 +111,7 @@ export const SECTIONS: Section[] = [
     title: 'Tour Virtual 360°',
     byline: 'Alta fidelidade, qualquer dispositivo',
     caption: 'Plantas industriais e patrimônio histórico, com consulta remota ágil e sem instalação pesada.',
-    image: '/placeholders/tour-360.jpg',
-    tilesX: 10,
-    tilesY: 7,
+    icon: 'building',
   },
   {
     kind: 'pick',
@@ -123,9 +121,7 @@ export const SECTIONS: Section[] = [
     title: 'Simulações Interativas (XR)',
     byline: 'VR · AR · MR em escala real',
     caption: 'Capacitação prática e reconstruções navegáveis, com física em tempo real e sem risco operacional.',
-    image: '/placeholders/xr.jpg',
-    tilesX: 10,
-    tilesY: 7,
+    icon: 'vrHeadset',
   },
   {
     kind: 'pick',
@@ -135,9 +131,7 @@ export const SECTIONS: Section[] = [
     title: 'SmartView',
     byline: 'Totem · estação · navegador',
     caption: 'Navegação de plantas e dados em tempo real, do totem touch ao navegador web.',
-    image: '/placeholders/smartview.jpg',
-    tilesX: 10,
-    tilesY: 7,
+    icon: 'smartview',
   },
   {
     kind: 'outro',

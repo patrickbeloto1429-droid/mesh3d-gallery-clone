@@ -1,49 +1,26 @@
 import * as THREE from 'three'
+import type { IconShape } from './iconShapes'
 
 /**
- * A particle "card" standing in for a solution's screenshot — a dense
- * grid of points that scatters into a diffuse cloud when off-screen and
- * assembles into a flat card silhouette as its station comes into
- * focus, with a cursor-reactive repel + glow. Parented to the camera
- * (see GalleryScene.ts) at a fixed local offset so it always sits
- * exactly where the DOM title/caption are centered, regardless of the
+ * A particle object standing in for a solution — a recognizable 3D
+ * silhouette (see iconShapes.ts) that scatters into a diffuse cloud
+ * when off-screen and assembles as its station comes into focus, with
+ * a cursor-reactive repel + glow and a slow continuous spin so its
+ * volume actually reads as 3D. Parented to the camera (see
+ * GalleryScene.ts) at a fixed local offset so it always sits exactly
+ * where the DOM title/caption are centered, regardless of the
  * camera's pitch or sway.
  */
-export function createPickCloud(colorA: THREE.Color, colorB: THREE.Color, seedOffset: number) {
-  const cols = 42
-  const rows = 30
-  const count = cols * rows
-  const cardW = 3.1
-  const cardH = 2.15
-
-  const positions = new Float32Array(count * 3)
-  const grid = new Float32Array(count * 2)
+export function createPickCloud(shape: IconShape, colorA: THREE.Color, colorB: THREE.Color, seedOffset: number) {
+  const count = shape.positions.length / 3
   const seeds = new Float32Array(count)
-  const colorT = new Float32Array(count)
-
-  let i = 0
-  for (let y = 0; y < rows; y++) {
-    for (let x = 0; x < cols; x++) {
-      const gx = (x / (cols - 1) - 0.5) * cardW
-      const gy = (0.5 - y / (rows - 1)) * cardH
-      grid[i * 2] = gx
-      grid[i * 2 + 1] = gy
-      positions[i * 3] = gx
-      positions[i * 3 + 1] = gy
-      positions[i * 3 + 2] = 0
-      seeds[i] = Math.random() * 1000 + seedOffset
-      // Gradient runs top-left -> bottom-right, matching the brand's
-      // 135deg signature gradient direction.
-      colorT[i] = (x / (cols - 1) + (1 - y / (rows - 1))) * 0.5
-      i++
-    }
-  }
+  for (let i = 0; i < count; i++) seeds[i] = Math.random() * 1000 + seedOffset
 
   const geometry = new THREE.BufferGeometry()
-  geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
-  geometry.setAttribute('aGrid', new THREE.BufferAttribute(grid, 2))
+  geometry.setAttribute('position', new THREE.BufferAttribute(shape.positions.slice(), 3))
+  geometry.setAttribute('aFormed', new THREE.BufferAttribute(shape.positions, 3))
   geometry.setAttribute('aSeed', new THREE.BufferAttribute(seeds, 1))
-  geometry.setAttribute('aColorT', new THREE.BufferAttribute(colorT, 1))
+  geometry.setAttribute('aColorT', new THREE.BufferAttribute(shape.colorT, 1))
 
   const material = new THREE.ShaderMaterial({
     transparent: true,
@@ -60,7 +37,7 @@ export function createPickCloud(colorA: THREE.Color, colorB: THREE.Color, seedOf
       uPixelRatio: { value: Math.min(window.devicePixelRatio, 2) },
     },
     vertexShader: /* glsl */ `
-      attribute vec2 aGrid;
+      attribute vec3 aFormed;
       attribute float aSeed;
       attribute float aColorT;
       uniform float uTime;
@@ -85,12 +62,17 @@ export function createPickCloud(colorA: THREE.Color, colorB: THREE.Color, seedOf
           (fract(aSeed * 78.2) - 0.5) * 4.5,
           (fract(aSeed * 37.5)) * 3.0 + 0.5
         );
-        vec3 formed = vec3(aGrid, 0.0);
-        vec3 pos = mix(scattered, formed, ease);
+        vec3 pos = mix(scattered, aFormed, ease);
 
-        // A faint idle drift once formed so the card never looks frozen.
-        pos.x += sin(uTime * 0.6 + aSeed) * 0.01 * ease;
+        // A faint idle bob so the object never looks frozen, plus a
+        // slow continuous spin once mostly formed — this is what
+        // actually sells the silhouette as a solid 3D object rather
+        // than a flat cutout.
         pos.y += cos(uTime * 0.5 + aSeed * 1.3) * 0.01 * ease;
+        float spin = uTime * 0.28 * ease;
+        float ca = cos(spin);
+        float sa = sin(spin);
+        pos.xz = mat2(ca, sa, -sa, ca) * pos.xz;
 
         vec4 mvPos = modelViewMatrix * vec4(pos, 1.0);
         vec4 clip = projectionMatrix * mvPos;
@@ -115,7 +97,7 @@ export function createPickCloud(colorA: THREE.Color, colorB: THREE.Color, seedOf
         vHoverFall = hoverFall;
 
         float atten = clamp(9.0 / max(-mvPos.z, 0.5), 0.4, 2.2);
-        gl_PointSize = (2.4 + hoverFall * 3.0) * atten * uPixelRatio;
+        gl_PointSize = (2.6 + hoverFall * 3.0) * atten * uPixelRatio;
       }
     `,
     fragmentShader: /* glsl */ `

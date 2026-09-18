@@ -4,8 +4,15 @@ import { createTerrain } from './Terrain'
 import { createAmbientDust } from './AmbientDust'
 import { createVortex } from './Vortex'
 import { createPickCloud } from './PickCloud'
+import { buildBuildingIcon, buildVRHeadsetIcon, buildSmartViewIcon, type IconShape } from './iconShapes'
 import { stationVisibility } from './windowing'
-import { SCROLL_END_Z, SECTIONS } from '../content/sections'
+import { SCROLL_END_Z, SECTIONS, type PickSection, type PickIcon } from '../content/sections'
+
+const ICON_BUILDERS: Record<PickIcon, (count: number) => IconShape> = {
+  building: buildBuildingIcon,
+  vrHeadset: buildVRHeadsetIcon,
+  smartview: buildSmartViewIcon,
+}
 
 // Imersão Virtual brand palette — see src/index.css for the source values.
 const COLOR_DARK = new THREE.Color('#1a0a20')
@@ -36,8 +43,10 @@ export function createGalleryScene(container: HTMLElement) {
   // always dead-center in view regardless of the dolly's pitch/sway —
   // one per pick station, each fading/assembling as its own station
   // comes into focus.
-  const pickSections = SECTIONS.filter((s) => s.kind === 'pick')
-  const pickClouds = pickSections.map((_section, idx) => createPickCloud(COLOR_DARK, COLOR_GLOW, idx * 137))
+  const pickSections = SECTIONS.filter((s): s is PickSection => s.kind === 'pick')
+  const pickClouds = pickSections.map((section, idx) =>
+    createPickCloud(ICON_BUILDERS[section.icon](1260), COLOR_DARK, COLOR_GLOW, idx * 137),
+  )
   pickClouds.forEach((cloud) => {
     cloud.points.position.set(0, -0.35, -5.5)
     camera.add(cloud.points)
