@@ -3,7 +3,9 @@ import { createBackdrop } from './Backdrop'
 import { createTerrain } from './Terrain'
 import { createAmbientDust } from './AmbientDust'
 import { createVortex } from './Vortex'
-import { SCROLL_END_Z } from '../content/sections'
+import { createPickCloud } from './PickCloud'
+import { stationVisibility } from './windowing'
+import { SCROLL_END_Z, SECTIONS } from '../content/sections'
 
 // Imersão Virtual brand palette — see src/index.css for the source values.
 const COLOR_DARK = new THREE.Color('#1a0a20')
@@ -30,8 +32,20 @@ export function createGalleryScene(container: HTMLElement) {
   scene.add(dust.points)
   scene.add(vortex.points)
 
+  // Solution cards render as particle clouds parented to the camera —
+  // always dead-center in view regardless of the dolly's pitch/sway —
+  // one per pick station, each fading/assembling as its own station
+  // comes into focus.
+  const pickSections = SECTIONS.filter((s) => s.kind === 'pick')
+  const pickClouds = pickSections.map((_section, idx) => createPickCloud(COLOR_DARK, COLOR_GLOW, idx * 137))
+  pickClouds.forEach((cloud) => {
+    cloud.points.position.set(0, -0.35, -5.5)
+    camera.add(cloud.points)
+  })
+  scene.add(camera)
+
   if (import.meta.env.DEV) {
-    ;(window as unknown as { __debugScene: unknown }).__debugScene = { backdrop, terrain, dust, vortex }
+    ;(window as unknown as { __debugScene: unknown }).__debugScene = { backdrop, terrain, dust, vortex, pickClouds }
   }
 
   let width = container.clientWidth
@@ -69,6 +83,7 @@ export function createGalleryScene(container: HTMLElement) {
   window.addEventListener('resize', resize)
 
   const clock = new THREE.Clock()
+  const cursorNDC = new THREE.Vector2(0, 0)
   let currentZ = 0
   let rafId = 0
 
@@ -84,6 +99,13 @@ export function createGalleryScene(container: HTMLElement) {
     terrain.update(t)
     dust.update(t)
     vortex.update(t, currentZ)
+
+    cursorNDC.set(mouseUv.x * 2 - 1, mouseUv.y * 2 - 1)
+    pickClouds.forEach((cloud, idx) => {
+      const reveal = stationVisibility(currentZ, pickSections[idx].z)
+      cloud.update(t, reveal, cursorNDC, hoverStrength)
+    })
+
     renderer.render(scene, camera)
     rafId = requestAnimationFrame(render)
   }
@@ -111,6 +133,7 @@ export function createGalleryScene(container: HTMLElement) {
       terrain.dispose()
       dust.dispose()
       vortex.dispose()
+      pickClouds.forEach((cloud) => cloud.dispose())
       renderer.dispose()
       container.removeChild(renderer.domElement)
     },

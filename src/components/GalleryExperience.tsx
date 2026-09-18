@@ -32,6 +32,10 @@ export function GalleryExperience() {
     })
     engine.mount()
 
+    if (import.meta.env.DEV) {
+      ;(window as unknown as { __engine: ScrollEngine }).__engine = engine
+    }
+
     return () => {
       engine.unmount()
       scene.dispose()

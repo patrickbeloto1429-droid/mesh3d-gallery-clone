@@ -1,7 +1,6 @@
 import { SECTIONS } from '../content/sections'
 import { stationVisibility } from '../scene/windowing'
 import { GlitchReveal } from './GlitchReveal'
-import { PickTile } from './PickTile'
 
 const displayFont = { fontFamily: 'var(--font-display)', textShadow: '0 4px 30px rgba(0,0,0,0.55)' }
 const uiFont = { fontFamily: 'var(--font-ui)' }
@@ -97,22 +96,19 @@ export function SectionsOverlay({ cameraZ }: { cameraZ: number }) {
               <span className="text-[11px] tracking-[0.2em] uppercase" style={{ ...uiFont, color: 'var(--muted)' }}>
                 {section.kicker}
               </span>
-              <div className="relative flex items-center justify-center">
-                <PickTile id={section.id} tilesX={section.tilesX} tilesY={section.tilesY} reveal={v} />
-                <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
-                  <span
-                    className="text-[clamp(28px,5.5vw,60px)] font-medium text-white"
-                    style={{ ...displayFont, textShadow: '0 2px 24px rgba(0,0,0,0.6)' }}
-                  >
-                    {section.title}
-                  </span>
-                  <span
-                    className="text-[20px] mt-1"
-                    style={{ fontFamily: 'var(--font-signature)', color: 'var(--fg-secondary)' }}
-                  >
-                    {section.byline}
-                  </span>
-                </div>
+              <div className="flex flex-col items-center justify-center text-center px-4 min-h-[38vh]">
+                <span
+                  className="text-[clamp(28px,5.5vw,60px)] font-medium text-white"
+                  style={{ ...displayFont, textShadow: '0 2px 24px rgba(0,0,0,0.6)' }}
+                >
+                  {section.title}
+                </span>
+                <span
+                  className="text-[20px] mt-1"
+                  style={{ fontFamily: 'var(--font-signature)', color: 'var(--fg-secondary)' }}
+                >
+                  {section.byline}
+                </span>
               </div>
               <Caption>{section.caption}</Caption>
             </div>
