@@ -1,0 +1,61 @@
+@import 'tailwindcss';
+
+:root {
+  --bg: #08090d;
+  --fg: #eef1f5;
+  --fg-secondary: #c6c4ef;
+  --muted: #b7c0c9;
+  --accent: #e2ff3f;
+  --font-display: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+  --font-ui: 'Geist', ui-sans-serif, system-ui, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-ui);
+  -webkit-font-smoothing: antialiased;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+@keyframes glitch-cyan {
+  0% {
+    transform: translate3d(4px, 0, 0);
+    opacity: 0.85;
+  }
+  60% {
+    transform: translate3d(-1px, 0, 0);
+    opacity: 0.15;
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+    opacity: 0;
+  }
+}
+
+@keyframes glitch-red {
+  0% {
+    transform: translate3d(-4px, 0, 0);
+    opacity: 0.85;
+  }
+  60% {
+    transform: translate3d(1px, 0, 0);
+    opacity: 0.15;
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+    opacity: 0;
+  }
+}
