@@ -15,11 +15,10 @@ export function Chrome({ progress, label }: ChromeProps) {
         style={{ background: 'rgba(255,255,255,0.06)' }}
       >
         <div
-          className="h-full"
+          className="h-full w-full origin-left"
           style={{
-            width: `${Math.round(progress * 100)}%`,
+            transform: `scaleX(${progress})`,
             background: 'var(--accent)',
-            transition: 'width 0.1s linear',
           }}
         />
       </div>
@@ -48,8 +47,8 @@ export function Chrome({ progress, label }: ChromeProps) {
             {[3, 6, 4].map((h, i) => (
               <span
                 key={i}
-                className="w-[2px] bg-white/70"
-                style={{ height: audioOn ? `${h}px` : '2px', transition: 'height 0.2s ease' }}
+                className="w-[2px] h-full bg-white/70 origin-bottom"
+                style={{ transform: `scaleY(${(audioOn ? h : 2) / 12})`, transition: 'transform 0.2s ease' }}
               />
             ))}
           </span>
