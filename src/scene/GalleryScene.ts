@@ -29,8 +29,32 @@ export function createGalleryScene(container: HTMLElement) {
   scene.add(dust.points)
   scene.add(vortex.points)
 
+  if (import.meta.env.DEV) {
+    ;(window as unknown as { __debugScene: unknown }).__debugScene = { backdrop, terrain, dust, vortex }
+  }
+
   let width = container.clientWidth
   let height = container.clientHeight
+
+  // Cursor-reactive hover glow: strength ramps up on movement and
+  // decays back to 0 when the pointer stops or leaves.
+  const mouseUv = new THREE.Vector2(0.5, 0.3)
+  const targetMouseUv = new THREE.Vector2(0.5, 0.3)
+  let hoverTarget = 0
+  let hoverStrength = 0
+  let lastMoveAt = 0
+
+  function onPointerMove(e: PointerEvent) {
+    const rect = container.getBoundingClientRect()
+    targetMouseUv.set((e.clientX - rect.left) / rect.width, 1 - (e.clientY - rect.top) / rect.height)
+    hoverTarget = 1
+    lastMoveAt = performance.now()
+  }
+  function onPointerLeave() {
+    hoverTarget = 0
+  }
+  container.addEventListener('pointermove', onPointerMove)
+  container.addEventListener('pointerleave', onPointerLeave)
 
   function resize() {
     width = container.clientWidth
@@ -49,10 +73,16 @@ export function createGalleryScene(container: HTMLElement) {
 
   function render() {
     const t = clock.getElapsedTime()
+
+    if (performance.now() - lastMoveAt > 200) hoverTarget = 0
+    hoverStrength += (hoverTarget - hoverStrength) * 0.06
+    mouseUv.lerp(targetMouseUv, 0.15)
+
     backdrop.update(t, width / height)
+    backdrop.setHover(mouseUv, hoverStrength)
     terrain.update(t)
     dust.update(t)
-    vortex.update(t)
+    vortex.update(t, currentZ)
     renderer.render(scene, camera)
     rafId = requestAnimationFrame(render)
   }
@@ -74,6 +104,8 @@ export function createGalleryScene(container: HTMLElement) {
     dispose() {
       cancelAnimationFrame(rafId)
       window.removeEventListener('resize', resize)
+      container.removeEventListener('pointermove', onPointerMove)
+      container.removeEventListener('pointerleave', onPointerLeave)
       backdrop.dispose()
       terrain.dispose()
       dust.dispose()

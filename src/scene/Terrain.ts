@@ -50,11 +50,15 @@ export function createTerrain(length: number, colorA: THREE.Color, colorB: THREE
       uniform vec3 uColorA;
       uniform vec3 uColorB;
       void main() {
-        float t = clamp(vHeight * 0.5 + 0.5, 0.0, 1.0);
+        // Capped well short of 1.0 — this used to reach pure, fully
+        // saturated colorB at modest heights and blow out to a flat
+        // neon wall wherever the camera passed close to a ridge.
+        float t = clamp(vHeight * 0.32 + 0.28, 0.0, 0.72);
         vec3 col = mix(uColorA, uColorB, t);
-        float glow = smoothstep(0.3, 1.4, vHeight);
-        col += uColorB * glow * 0.5;
-        gl_FragColor = vec4(col, 0.85 * vFade);
+        // Only the sharpest crests get an extra glow, and only a little.
+        float glow = smoothstep(0.9, 1.6, vHeight);
+        col += uColorB * glow * 0.22;
+        gl_FragColor = vec4(col, 0.62 * vFade);
       }
     `,
   })

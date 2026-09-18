@@ -5,7 +5,7 @@ import * as THREE from 'three'
  * — particles arranged on a rotating spiral tube that the camera flies
  * through, standing in for a "portal" moment before the outro.
  */
-export function createVortex(centerZ: number, colorA: THREE.Color, colorB: THREE.Color) {
+export function createVortex(centerZ: number, colorA: THREE.Color, colorB: THREE.Color, reach = 22) {
   const count = 3200
   const positions = new Float32Array(count * 3)
   const seeds = new Float32Array(count)
@@ -35,6 +35,7 @@ export function createVortex(centerZ: number, colorA: THREE.Color, colorB: THREE
       uColorA: { value: colorA },
       uColorB: { value: colorB },
       uPixelRatio: { value: Math.min(window.devicePixelRatio, 2) },
+      uFade: { value: 0 },
     },
     vertexShader: /* glsl */ `
       attribute float aSeed;
@@ -61,6 +62,7 @@ export function createVortex(centerZ: number, colorA: THREE.Color, colorB: THREE
       precision highp float;
       uniform vec3 uColorA;
       uniform vec3 uColorB;
+      uniform float uFade;
       varying float vSeed;
       void main() {
         vec2 c = gl_PointCoord - vec2(0.5);
@@ -68,7 +70,7 @@ export function createVortex(centerZ: number, colorA: THREE.Color, colorB: THREE
         if (d > 0.5) discard;
         float disc = 1.0 - smoothstep(0.0, 0.5, d);
         vec3 col = mix(uColorA, uColorB, fract(vSeed * 0.53));
-        gl_FragColor = vec4(col, disc * 0.8);
+        gl_FragColor = vec4(col, disc * 0.8 * uFade);
       }
     `,
   })
@@ -78,8 +80,15 @@ export function createVortex(centerZ: number, colorA: THREE.Color, colorB: THREE
 
   return {
     points,
-    update(time: number) {
+    update(time: number, cameraZ: number) {
       material.uniforms.uTime.value = time
+      const dist = Math.abs(cameraZ - centerZ)
+      // Invisible until the camera is well within reach — seen from
+      // hero-section distance this reads as a dense fingerprint-like
+      // smear instead of a portal, since thousands of points compress
+      // into a few screen pixels at long range.
+      const fade = 1 - Math.min(1, Math.max(0, (dist - reach * 0.35) / (reach * 0.65)))
+      material.uniforms.uFade.value = fade
     },
     dispose() {
       geometry.dispose()

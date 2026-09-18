@@ -13,15 +13,18 @@ export function createAmbientDust(count: number, length: number, colorA: THREE.C
 
   for (let i = 0; i < count; i++) {
     const z = -Math.random() * length
-    const horizonBias = Math.pow(Math.random(), 2.2) // cluster low
-    const y = -2.6 + horizonBias * 5.5 - 1.0
-    const spread = 5 + horizonBias * 22
+    // Most particles cluster low near the terrain; a sparse fraction
+    // scatters high into the black sky as stray drifting motes.
+    const sky = Math.random() < 0.12
+    const horizonBias = sky ? Math.random() * 0.5 : Math.pow(Math.random(), 2.2)
+    const y = sky ? 4 + Math.random() * 10 : -2.6 + horizonBias * 5.5 - 1.0
+    const spread = sky ? 30 : 5 + horizonBias * 22
     const x = (Math.random() - 0.5) * spread
     positions[i * 3] = x
     positions[i * 3 + 1] = y
     positions[i * 3 + 2] = z
     seeds[i] = Math.random() * 1000
-    sizes[i] = Math.random() * 2.2 + 0.6
+    sizes[i] = (sky ? Math.random() * 1.1 + 0.3 : Math.random() * 2.2 + 0.6)
   }
 
   const geometry = new THREE.BufferGeometry()
