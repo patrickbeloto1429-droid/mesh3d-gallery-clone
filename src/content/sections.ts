@@ -52,13 +52,16 @@ export interface OutroSection {
 
 export type Section = HeroSection | StatSection | MakerSection | PickSection | OutroSection
 
-// Imersão Virtual — real brand content, adapted from the 2026 brand
-// manual (positioning, mission, platforms, solution names) and
-// imersaovirtual.com (sector list, contact). Numbers below are only
-// ones honestly derivable from that material (counts of sectors,
-// platforms and named solutions) — no business metric (projects
-// delivered, clients served, years active) has been invented; those
-// still need Patrick's real figures before shipping.
+// Imersão Virtual — real brand content. Sources: the 2026 brand manual
+// (positioning, mission, colors, fonts), imersaovirtual.com (contact),
+// and the "Rebranding - Comunicação" deck (richer product copy, the
+// definitive 6-sector list, and the "Decisões precisas, sem ruídos"
+// line). The deck also contains an obvious placeholder joke testimonial
+// ("Henrique Maderite... in memoriam") — not real client content, not
+// used here. Numbers below are only ones honestly derivable from real
+// material (counts of sectors, platforms and named solutions) — no
+// business metric (projects delivered, clients served, years active)
+// has been invented; those still need Patrick's real figures.
 export const SECTIONS: Section[] = [
   {
     kind: 'hero',
@@ -73,8 +76,8 @@ export const SECTIONS: Section[] = [
     id: 'stat-1',
     z: -8,
     label: 'Setores atendidos',
-    value: '5',
-    caption: 'Imobiliário, indústria, turismo, educação e muito mais.',
+    value: '6',
+    caption: 'Imobiliário, turismo, educação, eventos, indústria e cidades inteligentes.',
   },
   {
     kind: 'stat',
@@ -89,8 +92,8 @@ export const SECTIONS: Section[] = [
     id: 'stat-3',
     z: -24,
     label: 'Soluções',
-    value: '4',
-    caption: 'Totem interativo, treinamentos, tour virtual e software sob medida.',
+    value: '3',
+    caption: 'Tour 360°, simulações XR e SmartView — três formas de usar a mesma engenharia.',
   },
   {
     kind: 'maker',
@@ -98,17 +101,17 @@ export const SECTIONS: Section[] = [
     z: -32,
     kicker: 'DIRETOR EXECUTIVO',
     name: 'Samuel Goulart',
-    caption: 'À frente da engenharia e de cada relação com o cliente.',
+    caption: 'Decisões precisas, sem ruídos.',
   },
   {
     kind: 'pick',
     id: 'pick-3',
     z: -40,
     kicker: 'SOLUÇÃO',
-    title: 'Treinamentos Corporativos',
-    byline: 'Simulações e capacitação em 3D',
-    caption: 'Indústria e segurança treinando para o risco real, sem o risco real.',
-    image: '/placeholders/treinamentos.jpg',
+    title: 'Tour Virtual 360°',
+    byline: 'Alta fidelidade, qualquer dispositivo',
+    caption: 'Plantas industriais e patrimônio histórico, com consulta remota ágil e sem instalação pesada.',
+    image: '/placeholders/tour-360.jpg',
     tilesX: 10,
     tilesY: 7,
   },
@@ -117,10 +120,10 @@ export const SECTIONS: Section[] = [
     id: 'pick-2',
     z: -48,
     kicker: 'SOLUÇÃO',
-    title: 'Tour Virtual 360°',
-    byline: 'Espaços que se exploram sozinhos',
-    caption: 'Imobiliário e turismo mostrando cada ambiente antes da primeira visita.',
-    image: '/placeholders/tour-360.jpg',
+    title: 'Simulações Interativas (XR)',
+    byline: 'VR · AR · MR em escala real',
+    caption: 'Capacitação prática e reconstruções navegáveis, com física em tempo real e sem risco operacional.',
+    image: '/placeholders/xr.jpg',
     tilesX: 10,
     tilesY: 7,
   },
@@ -129,10 +132,10 @@ export const SECTIONS: Section[] = [
     id: 'pick-1',
     z: -56,
     kicker: 'SOLUÇÃO',
-    title: 'Totem SmartView',
-    byline: 'Interação físico-digital em touch',
-    caption: 'A ponte entre o ambiente real e o modelo 3D, a um toque de distância.',
-    image: '/placeholders/totem-smartview.jpg',
+    title: 'SmartView',
+    byline: 'Totem · estação · navegador',
+    caption: 'Navegação de plantas e dados em tempo real, do totem touch ao navegador web.',
+    image: '/placeholders/smartview.jpg',
     tilesX: 10,
     tilesY: 7,
   },
