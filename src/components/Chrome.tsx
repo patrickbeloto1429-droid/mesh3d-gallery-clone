@@ -28,12 +28,8 @@ export function Chrome({ progress, label }: ChromeProps) {
           {label}
         </span>
 
-        <a
-          href="/"
-          className="pointer-events-auto flex items-center gap-1 text-[15px] font-medium text-white"
-          style={{ fontFamily: 'var(--font-display)' }}
-        >
-          gallery <span aria-hidden>»</span>
+        <a href="/" className="pointer-events-auto flex items-center">
+          <img src="/brand/imersao-virtual-logo.png" alt="Imersão Virtual" className="h-5 w-auto" />
         </a>
 
         <button
@@ -59,7 +55,7 @@ export function Chrome({ progress, label }: ChromeProps) {
         <button type="button" className="pointer-events-auto text-[11px] tracking-[0.18em] uppercase text-white/80">
           share
         </button>
-        <span className="text-[11px] tracking-[0.18em] uppercase text-white/50">built for a real client</span>
+        <span className="text-[11px] tracking-[0.18em] uppercase text-white/50">imersão virtual</span>
       </footer>
     </>
   )

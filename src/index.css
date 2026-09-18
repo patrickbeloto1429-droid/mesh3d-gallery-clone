@@ -1,11 +1,18 @@
 @import 'tailwindcss';
 
 :root {
-  --bg: #08090d;
-  --fg: #eef1f5;
-  --fg-secondary: #c6c4ef;
-  --muted: #b7c0c9;
-  --accent: #e2ff3f;
+  /* Imersão Virtual brand tokens — extracted from imersaovirtual.com's
+     logo mark (pixel-sampled) and cross-checked against the 2026 brand
+     manual: preto #0D0D0D, coral #FF4B3E, roxo #7D4096, gradiente
+     assinatura #FF5A3C→#C13DD4 a 135°. */
+  --bg: #0d0d0d;
+  --fg: #f5f3f7;
+  --fg-secondary: #e2c9f0;
+  --muted: #b7abc0;
+  --coral: #ff4b3e;
+  --violet: #7d4096;
+  --accent: #ff4b3e;
+  --accent-gradient: linear-gradient(135deg, #ff5a3c, #c13dd4);
   --font-display: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
   --font-ui: 'Geist', ui-sans-serif, system-ui, sans-serif;
 }

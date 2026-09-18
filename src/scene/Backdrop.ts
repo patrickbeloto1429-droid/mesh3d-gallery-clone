@@ -88,8 +88,8 @@ export function createBackdrop(colorA: THREE.Color, colorB: THREE.Color) {
         float topoLine = 1.0 - smoothstep(0.0, 0.06, topoLines);
         float topoFall = exp(-topoDist * topoDist * 6.0);
         float hue = fract(topoField * 0.6);
-        vec3 topoCol = mix(vec3(0.35, 0.9, 1.0), vec3(1.0, 0.35, 0.7), smoothstep(0.15, 0.55, hue));
-        topoCol = mix(topoCol, vec3(0.75, 1.0, 0.4), smoothstep(0.55, 0.9, hue));
+        vec3 topoCol = mix(vec3(0.96, 0.66, 0.24), vec3(1.0, 0.35, 0.24), smoothstep(0.15, 0.55, hue));
+        topoCol = mix(topoCol, vec3(0.76, 0.24, 0.83), smoothstep(0.55, 0.9, hue));
         col += topoCol * topoLine * topoFall * 0.3;
 
         // Pure black sky above the horizon — the glow only ever
@@ -106,10 +106,10 @@ export function createBackdrop(colorA: THREE.Color, colorB: THREE.Color) {
         if (hoverGlow > 0.001) {
           float iridA = fbm(vec2(centered.x * 10.0 + uTime * 0.45, centered.y * 10.0 - uTime * 0.3));
           float iridB = fbm(vec2(centered.y * 8.0 - uTime * 0.25, centered.x * 8.0 + uTime * 0.2));
-          vec3 cyan = vec3(0.36, 0.94, 1.0);
-          vec3 pink = vec3(1.0, 0.38, 0.68);
-          vec3 violet = vec3(0.62, 0.42, 1.0);
-          vec3 oil = mix(cyan, pink, smoothstep(-0.4, 0.4, iridA));
+          vec3 gold = vec3(0.96, 0.66, 0.24);
+          vec3 coral = vec3(1.0, 0.35, 0.24);
+          vec3 violet = vec3(0.76, 0.24, 0.83);
+          vec3 oil = mix(gold, coral, smoothstep(-0.4, 0.4, iridA));
           oil = mix(oil, violet, smoothstep(0.25, 0.85, iridB));
           col = mix(col, oil, clamp(hoverGlow * 0.85, 0.0, 0.85));
         }

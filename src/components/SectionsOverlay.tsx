@@ -145,8 +145,8 @@ export function SectionsOverlay({ cameraZ }: { cameraZ: number }) {
             {nearEnd > 0.75 && (
               <a
                 href={section.ctaHref}
-                className="pointer-events-auto mt-6 px-6 py-3 rounded-full text-[14px] font-medium text-black"
-                style={{ ...uiFont, background: 'var(--accent)', opacity: Math.min(1, (nearEnd - 0.75) * 4) }}
+                className="pointer-events-auto mt-6 px-6 py-3 rounded-full text-[14px] font-medium text-white"
+                style={{ ...uiFont, background: 'var(--accent-gradient)', opacity: Math.min(1, (nearEnd - 0.75) * 4) }}
               >
                 {section.cta}
               </a>

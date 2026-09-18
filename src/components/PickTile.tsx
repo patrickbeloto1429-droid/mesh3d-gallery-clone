@@ -7,10 +7,13 @@ interface PickTileProps {
   reveal: number // 0..1
 }
 
+// Keeps generated placeholder tiles within the brand's coral→gold→violet
+// family (roughly hue 300°→380°/20° through magenta-red-orange) instead
+// of spanning the full wheel into unrelated greens/blues.
 function hueFromId(id: string) {
   let h = 0
-  for (let i = 0; i < id.length; i++) h = (h * 31 + id.charCodeAt(i)) % 360
-  return h
+  for (let i = 0; i < id.length; i++) h = (h * 31 + id.charCodeAt(i)) % 1000
+  return (300 + (h / 1000) * 80) % 360
 }
 
 /**

@@ -5,9 +5,10 @@ import { createAmbientDust } from './AmbientDust'
 import { createVortex } from './Vortex'
 import { SCROLL_END_Z } from '../content/sections'
 
-const COLOR_DARK = new THREE.Color('#141d08')
-const COLOR_GLOW = new THREE.Color('#d4f24a')
-const COLOR_SKY = new THREE.Color('#04040a')
+// Imersão Virtual brand palette — see src/index.css for the source values.
+const COLOR_DARK = new THREE.Color('#1a0a20')
+const COLOR_GLOW = new THREE.Color('#ff5a3c')
+const COLOR_SKY = new THREE.Color('#0d0d0d')
 
 export function createGalleryScene(container: HTMLElement) {
   const scene = new THREE.Scene()
@@ -22,7 +23,7 @@ export function createGalleryScene(container: HTMLElement) {
   const backdrop = createBackdrop(COLOR_SKY, COLOR_GLOW)
   const terrain = createTerrain(length, COLOR_DARK, COLOR_GLOW)
   const dust = createAmbientDust(5200, length, COLOR_DARK, COLOR_GLOW)
-  const vortex = createVortex(SCROLL_END_Z + 6, COLOR_DARK, new THREE.Color('#eaffb0'))
+  const vortex = createVortex(SCROLL_END_Z + 6, COLOR_DARK, new THREE.Color('#ffd9c2'))
 
   scene.add(backdrop.mesh)
   scene.add(terrain.mesh)
